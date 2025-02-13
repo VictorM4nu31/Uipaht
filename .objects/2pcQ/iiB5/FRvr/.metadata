@@ -1,0 +1,13 @@
+﻿{
+  "Name": "prueba.xlsx - Excel",
+  "Type": "Screen",
+  "Id": "FRvrhOWwdEmb6lqufPfQRg",
+  "Reference": "jMeNqUgdRkq3pZZc0qOAUQ/FRvrhOWwdEmb6lqufPfQRg",
+  "ParentRef": "jMeNqUgdRkq3pZZc0qOAUQ/iiB5HGNGHU-7c64rQTyYqw",
+  "Created": "2025-02-13T18:01:07.1646568Z",
+  "Updated": "2025-02-13T18:01:07.1646568Z",
+  "CreatedBy": [
+    "UiPath.UIAutomationCore, Version=24.12.4.0, Culture=neutral, PublicKeyToken=null",
+    "UiPath.Platform, Version=24.12.3.0, Culture=neutral, PublicKeyToken=null"
+  ]
+}

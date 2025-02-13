@@ -1,0 +1,12 @@
+﻿{
+  "Name": "Mostrar entradas del libro en pantalla",
+  "Type": "App",
+  "Id": "2pcQOhfkx0m_F98p7dRVzQ",
+  "Reference": "jMeNqUgdRkq3pZZc0qOAUQ/2pcQOhfkx0m_F98p7dRVzQ",
+  "Created": "2025-02-13T17:57:10.5549665Z",
+  "Updated": "2025-02-13T17:57:10.5549665Z",
+  "CreatedBy": [
+    "UiPath.UIAutomationCore, Version=24.12.4.0, Culture=neutral, PublicKeyToken=null",
+    "UiPath.Platform, Version=24.12.3.0, Culture=neutral, PublicKeyToken=null"
+  ]
+}

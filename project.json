@@ -4,7 +4,11 @@
   "description": "transcribir datos de excel hoja 1 a hoja 2",
   "main": "Main.xaml",
   "dependencies": {
-    "UiPath.System.Activities": "[24.10.7]"
+    "UiPath.Excel.Activities": "2.25.1-preview",
+    "UiPath.MicrosoftOffice365.Activities": "[3.0.1-preview]",
+    "UiPath.System.Activities": "[24.10.7]",
+    "UiPath.Testing.Activities": "[24.10.1]",
+    "UiPath.UIAutomation.Activities": "[24.12.4-preview]"
   },
   "webServices": [],
   "entitiesStores": [],
