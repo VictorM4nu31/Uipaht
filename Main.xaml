@@ -138,6 +138,7 @@
       <x:String>UiPath.Platform.SyncObjects</x:String>
       <x:String>UiPath.UIAutomationNext</x:String>
       <x:String>UiPath.Activities.System.Text</x:String>
+      <x:String>UiPath.DataTableUtilities</x:String>
     </sco:Collection>
   </TextExpression.NamespacesForImplementation>
   <TextExpression.ReferencesForImplementation>
@@ -274,12 +275,17 @@
       <x:Boolean x:Key="ShouldCollapseAll">False</x:Boolean>
     </scg:Dictionary>
   </sap:WorkflowViewStateService.ViewState>
-  <Sequence sap2010:Annotation.AnnotationText="como hacer para que abra un archivo de execl y me muestres que la lo abrio la hoja se llama movimientos" sap:VirtualizedContainerService.HintSize="883.2,337.704" sap2010:WorkflowViewState.IdRef="Sequence_4">
+  <Sequence sap2010:Annotation.AnnotationText="Fase 1: Extracción de Datos&#xA;Objetivo: Leer y validar la información de todas las hojas.&#xA;&#xA;Lectura de Hojas:&#xA;&#xA;Utiliza la actividad Read Range dentro de un Excel Application Scope para cada hoja.&#xA;Asigna cada resultado a una DataTable (por ejemplo, dtMovimientos para “Movimientos” y dtBancoA, dtBancoB, etc. para cada hoja de bancos).&#xA;Validación y Filtrado:&#xA;&#xA;Emplea actividades como Filter Data Table o asignaciones con expresiones LINQ para eliminar registros con datos vacíos o formatos incorrectos (por ejemplo, verificar que las columnas de fecha y monto contengan valores válidos).&#xA;Puedes utilizar la actividad IsMatch o expresiones regulares para validar formatos de fechas y números.&#xA;Manejo de Errores:&#xA;&#xA;Implementa bloques Try Catch para capturar excepciones al leer el archivo, por ejemplo, errores de conexión o problemas de formato.&#xA;Registra o notifica errores que puedan interrumpir el procesamiento." sap:VirtualizedContainerService.HintSize="833.6000000000001,1296" sap2010:WorkflowViewState.IdRef="Sequence_4">
     <Sequence.Variables>
       <Variable x:TypeArguments="x:String" Name="movimientos" />
       <Variable x:TypeArguments="sd:DataTable" Name="bookEntries" />
       <Variable x:TypeArguments="x:String" Name="DisplayResult" />
       <Variable x:TypeArguments="x:String" Name="messageBoxChosenButton" />
+      <Variable x:TypeArguments="x:Boolean" Name="isValidDate" />
+      <Variable x:TypeArguments="x:String" Name="bankName" />
+      <Variable x:TypeArguments="x:Double" Name="currentBalance" />
+      <Variable x:TypeArguments="sd:DataTable" Name="filteredEntries" />
+      <Variable x:TypeArguments="sd:DataTable" Name="dtMovimientos" />
     </Sequence.Variables>
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">
@@ -287,7 +293,52 @@
         <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
-    <ui:ReadRange Range="{x:Null}" WorkbookPathResource="{x:Null}" AddHeaders="True" DataTable="[bookEntries]" DisplayName="Abrir archivo de Excel" sap:VirtualizedContainerService.HintSize="416,120" sap2010:WorkflowViewState.IdRef="ReadRange_3" SheetName="movimientos" WorkbookPath="prueba.xlsx" />
-    <ui:MessageBox Caption="{x:Null}" AutoCloseAfter="00:00:00" Buttons="Ok" ChosenButton="[messageBoxChosenButton]" DisplayName="Mostrar cuadro de mensaje &quot;La hoja 'movimientos' se ha abierto&quot;" sap:VirtualizedContainerService.HintSize="416,108.8" sap2010:WorkflowViewState.IdRef="MessageBox_4" Text="[&quot;[&quot;&quot;Sheet 'movimientos' has opened&quot;&quot;]&quot;]" TopMost="True" />
+    <ui:ExcelApplicationScope Password="{x:Null}" SensitivityLabel="{x:Null}" DisplayName="Excel Application Scope" sap:VirtualizedContainerService.HintSize="484.79999999999995,1173.6" sap2010:WorkflowViewState.IdRef="ExcelApplicationScope_5" InstanceCachePeriod="3000" SensitivityOperation="None" WorkbookPath="prueba.xlsx">
+      <ui:ExcelApplicationScope.Body>
+        <ActivityAction x:TypeArguments="ui:WorkbookApplication">
+          <ActivityAction.Argument>
+            <DelegateInArgument x:TypeArguments="ui:WorkbookApplication" Name="ExcelWorkbookScope" />
+          </ActivityAction.Argument>
+          <Sequence DisplayName="Hacer" sap:VirtualizedContainerService.HintSize="451.2,1064" sap2010:WorkflowViewState.IdRef="Sequence_45">
+            <Sequence.Variables>
+              <Variable x:TypeArguments="sd:DataTable" Name="dtBancoA" />
+              <Variable x:TypeArguments="sd:DataTable" Name="dtBancoB" />
+              <Variable x:TypeArguments="sd:DataTable" Name="dtBancoC" />
+            </Sequence.Variables>
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <ui:ReadRange WorkbookPathResource="{x:Null}" AddHeaders="True" DataTable="[dtMovimientos]" DisplayName="Leer rango &quot;Movimientos&quot; en dtMovimientos" sap:VirtualizedContainerService.HintSize="417.6,120" sap2010:WorkflowViewState.IdRef="ReadRange_18" Range="A1:Z1000" SheetName="Movimientos" WorkbookPath="prueba.xlsx" />
+            <ui:ReadRange WorkbookPathResource="{x:Null}" AddHeaders="True" DataTable="[dtBancoA]" DisplayName="Leer rango &quot;BancoA&quot; en dtBancoA" sap:VirtualizedContainerService.HintSize="417.6,120" sap2010:WorkflowViewState.IdRef="ReadRange_19" Range="A1:Z1000" SheetName="BancoA" WorkbookPath="prueba.xlsx" />
+            <ui:ReadRange WorkbookPathResource="{x:Null}" AddHeaders="True" DataTable="[dtBancoB]" DisplayName="Leer rango &quot;BancoB&quot; en dtBancoB" sap:VirtualizedContainerService.HintSize="417.6,120" sap2010:WorkflowViewState.IdRef="ReadRange_20" Range="A1:Z1000" SheetName="BancoB" WorkbookPath="prueba.xlsx" />
+            <ui:ReadRange WorkbookPathResource="{x:Null}" AddHeaders="True" DataTable="[dtBancoC]" DisplayName="Leer rango &quot;BancoC&quot; en dtBancoC" sap:VirtualizedContainerService.HintSize="417.6,120" sap2010:WorkflowViewState.IdRef="ReadRange_21" Range="A1:Z1000" SheetName="BancoC" WorkbookPath="prueba.xlsx" />
+            <If Condition="[(dtMovimientos.TableName = &quot;Movimientos&quot;) AndAlso (dtBancoA.TableName = &quot;BancoA&quot;) AndAlso (dtBancoB.TableName = &quot;BancoB&quot;) AndAlso (dtBancoC.TableName = &quot;BancoC&quot;)]" DisplayName="Si el nombre de la hoja no es correcto" sap:VirtualizedContainerService.HintSize="417.6,524" sap2010:WorkflowViewState.IdRef="If_6">
+              <If.Then>
+                <Sequence DisplayName="Then" sap:VirtualizedContainerService.HintSize="416,168.8" sap2010:WorkflowViewState.IdRef="Sequence_43">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <ui:MessageBox Caption="{x:Null}" AutoCloseAfter="00:00:00" ChosenButton="[messageBoxChosenButton]" DisplayName="Crear alerta con nombre de hoja incorrecto" sap:VirtualizedContainerService.HintSize="382.4,108.8" sap2010:WorkflowViewState.IdRef="MessageBox_9" Text="[&quot;no hay nombres correctos&quot;]" />
+                </Sequence>
+              </If.Then>
+              <If.Else>
+                <Sequence DisplayName="Else" sap:VirtualizedContainerService.HintSize="416,225.6" sap2010:WorkflowViewState.IdRef="Sequence_44">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <ui:LogMessage DisplayName="Registrar nombre de hoja correcto" sap:VirtualizedContainerService.HintSize="382.4,165.6" sap2010:WorkflowViewState.IdRef="LogMessage_12" Level="Info" Message="[&quot;Si hay nombres correctos&quot;]" />
+                </Sequence>
+              </If.Else>
+            </If>
+          </Sequence>
+        </ActivityAction>
+      </ui:ExcelApplicationScope.Body>
+    </ui:ExcelApplicationScope>
   </Sequence>
 </Activity>
